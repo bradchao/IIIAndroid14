@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,11 +58,21 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = contentResolver.query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null,null,null,null);
+//        String[] fields = c.getColumnNames();
+//        for (String field : fields){
+//            Log.v("brad", field);
+//        }
+        int indexName = c.getColumnIndex("display_name");
+        int indexData1 = c.getColumnIndex("data1");
 
-        
+        while (c.moveToNext()){
+            String name = c.getString(indexName);
+            String tel = c.getString(indexData1);
+            Log.v("brad", name + ":" + tel);
+        }
 
 
-
+        c.close();
     }
 
 
