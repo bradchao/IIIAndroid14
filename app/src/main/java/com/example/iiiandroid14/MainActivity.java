@@ -6,10 +6,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+    private ContentResolver contentResolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
+        contentResolver = getContentResolver();
+    }
+
+    public void test1(View view){
+        Cursor c = contentResolver.query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null,null,null,null);
+
+        
+
+
 
     }
+
 
 }
