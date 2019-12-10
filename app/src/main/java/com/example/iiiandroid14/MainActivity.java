@@ -16,10 +16,18 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private ContentResolver contentResolver;
+    private RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +63,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
+        queue = Volley.newRequestQueue(this);
         contentResolver = getContentResolver();
+
+        test3(null);
     }
 
     public void test1(View view){
@@ -132,6 +143,13 @@ public class MainActivity extends AppCompatActivity {
             cal.setTimeInMillis(dateValue);
 
             Log.v("brad", name + ":" + tel +":" + cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH)+1));
+
+            StringRequest request = new StringRequest(Request.Method.GET,
+                    "https://www.bradchao.com/brad/adddata.php?name=" + name + "&tel=" + tel,
+                    null,
+                    null);
+            queue.add(request);
+
         }
 
     }
