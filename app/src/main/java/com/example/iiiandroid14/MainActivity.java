@@ -10,10 +10,13 @@ import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private ContentResolver contentResolver;
@@ -95,6 +98,41 @@ public class MainActivity extends AppCompatActivity {
             Log.v("brad", name + ":" + value);
         }
 
+
+    }
+
+    public void test3(View view) {
+        Cursor c = contentResolver.query(
+                CallLog.Calls.CONTENT_URI,
+                null,null,null,null);
+
+//        String[] fields = c.getColumnNames();
+//        for (String field : fields){
+//            Log.v("brad", field);
+//        }
+
+        //CallLog.Calls.CACHED_NAME
+        //CallLog.Calls.NUMBER
+        //CallLog.Calls.TYPE => CallLog.Calls.INCOMING_TYPE; CallLog.Calls.OUTGOING_TYPE, CallLog.Calls.MISSED_TYPE
+        //CallLog.Calls.DATE;
+        //CallLog.Calls.DURATION;
+
+
+        int indexName = c.getColumnIndex(CallLog.Calls.CACHED_NAME);
+        int indexTel = c.getColumnIndex(CallLog.Calls.NUMBER);
+        int indexType = c.getColumnIndex(CallLog.Calls.TYPE);
+        int indexDate = c.getColumnIndex(CallLog.Calls.DATE);
+        int indexDuration = c.getColumnIndex(CallLog.Calls.DURATION);
+
+        while (c.moveToNext()){
+            String name = c.getString(indexName);
+            String tel = c.getString(indexTel);
+            long dateValue = Long.parseLong(c.getString(indexDate));
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(dateValue);
+
+            Log.v("brad", name + ":" + tel +":" + cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH)+1));
+        }
 
     }
 }
