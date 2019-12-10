@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 //        for (String field : fields){
 //            Log.v("brad", field);
 //        }
+
         int indexName = c.getColumnIndex("display_name");
         int indexData1 = c.getColumnIndex("data1");
 
@@ -71,9 +73,28 @@ public class MainActivity extends AppCompatActivity {
             Log.v("brad", name + ":" + tel);
         }
 
-
         c.close();
     }
 
 
+    public void test2(View view) {
+        Cursor c = contentResolver.query(
+                Settings.System.CONTENT_URI,
+                null,null,null,null);
+
+//        String[] fields = c.getColumnNames();
+//        for (String field : fields){
+//            Log.v("brad", field);
+//        }
+
+        int indexName = c.getColumnIndex("name");
+        int indexvalue = c.getColumnIndex("value");
+        while (c.moveToNext()){
+            String name = c.getString(indexName);
+            String value = c.getString(indexvalue);
+            Log.v("brad", name + ":" + value);
+        }
+
+
+    }
 }
